@@ -10,19 +10,21 @@ import com.facebook.FacebookSdk;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Filter on "MainActivity" in the Android Monitor to easily find debugging info
-    private static final String TAG = "MainActivity";
+    // Filter on "#!" in the Android Monitor to easily find debugging info
+    private static final String TAG = "#!MainActivity";
 
     //Why @Override is used: https://jonathonbevan.wordpress.com/tag/override/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "Activity created");
+        Log.d(TAG, "Initializing Facebook SDK");
         FacebookSdk.sdkInitialize(getApplicationContext());
+        setContentView(R.layout.activity_main);
 
         if (AccessToken.getCurrentAccessToken() == null) {
-            // No facebook access token cached in user's device, so they must log in
-            Log.d(TAG, "No facebook access token in cache, starting Login Activity");
+            Log.d(TAG, "No Facebook access token found, starting Login Activity - " +
+                    "Main Activity will be destroyed");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
 
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             // TODO: get user data from server
+            Log.d(TAG, "Facebook access token found");
+            Helper.logFBTokenAttributes(TAG, AccessToken.getCurrentAccessToken());
+
         }
 
     }

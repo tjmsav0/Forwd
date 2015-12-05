@@ -9,12 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.forwd.android.LoginActivity">
 
-    <TextView
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Login Activity"
-        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
