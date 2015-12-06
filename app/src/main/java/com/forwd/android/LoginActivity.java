@@ -23,21 +23,23 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "Activity created");
         setContentView(R.layout.activity_login);
-
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
 
         loginButton.registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
+
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-
                         Log.d(TAG, "Facebook Login 'onSuccess' callback invoked, " +
                                 "starting Main Activity - Login Activity will be " +
                                 "destroyed");
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
 
+                        if (getIntent().getData() != null) {
+                            intent.setData(getIntent().getData());
+                        }
+                        startActivity(intent);
                         finish();
                     }
 
