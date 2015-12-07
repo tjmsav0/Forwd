@@ -9,12 +9,13 @@ package com.forwd.backend;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
-
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /** An endpoint class we are exposing */
 @Api(
-  name = "myApi",
+  name = "testApi",
   version = "v1",
   namespace = @ApiNamespace(
     ownerDomain = "backend.forwd.com",
@@ -24,13 +25,14 @@ import javax.inject.Named;
 )
 public class MyEndpoint {
 
+    @Inject
+
     /** A simple endpoint method that takes a name and says Hi back */
     @ApiMethod(name = "sayHi")
-    public MyBean sayHi(@Named("name") String name) {
+    public MyBean sayHi(@Named("name") String person, HttpServletRequest request) {
         MyBean response = new MyBean();
-        response.setData("Hi, " + name);
+        response.setData("Hi, " + request.getHeader("You-Are-A"));
 
         return response;
     }
-
 }

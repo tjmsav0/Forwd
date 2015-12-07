@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -31,27 +31,21 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.d(TAG, "Facebook Login 'onSuccess' callback invoked, " +
-                                "starting Main Activity - Login Activity will be " +
-                                "destroyed");
+                        Log.d(TAG, "Facebook Login 'onSuccess' invoked");
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
-                        if (getIntent().getData() != null) {
-                            intent.setData(getIntent().getData());
-                        }
+                        Util.preserveRequestedURI(LoginActivity.this, intent);
                         startActivity(intent);
                         finish();
                     }
 
                     @Override
                     public void onCancel() {
-                        Log.d(TAG, "Facebook Login 'onCancel' callback invoked");
+                        Log.d(TAG, "Facebook Login 'onCancel' invoked");
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        Log.d(TAG, "Facebook Login 'onError' callback invoked with exception " +
-                        exception);
+                        Log.d(TAG, "Facebook Login 'onError' invoked with exception " + exception);
                     }
                 });
     }
