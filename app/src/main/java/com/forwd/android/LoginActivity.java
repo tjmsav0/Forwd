@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -15,7 +13,7 @@ import com.facebook.login.widget.LoginButton;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "#!LoginActivity";
+    private static final String TAG = "#!" + LoginActivity.class.getName();
     private CallbackManager callbackManager;
 
     @Override
@@ -33,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(LoginResult loginResult) {
                         Log.d(TAG, "Facebook Login 'onSuccess' invoked");
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        Util.preserveRequestedURI(LoginActivity.this, intent);
+                        forwardURI(LoginActivity.this, intent);
                         startActivity(intent);
                         finish();
                     }
@@ -60,5 +58,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "Activity destroyed");
+    }
+
+    protected void forwardURI(AppCompatActivity activity, Intent intent) {
+        if (activity.getIntent().getData() != null) {
+            intent.setData(activity.getIntent().getData());
+        }
     }
 }
